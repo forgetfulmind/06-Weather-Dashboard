@@ -11,6 +11,7 @@ let searchButton = $("#search-button")
 //global JSON response
 let jason; 
 //get API key 
+import {config} from './config.js' 
 let myKey = config.MY_API_KEY;
 
 //when I click on the searchButton  
