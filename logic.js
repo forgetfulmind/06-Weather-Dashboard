@@ -10,8 +10,10 @@ let searchField = $("#search-value")
 let searchButton = $("#search-button")
 //global JSON response
 let jason; 
+
+
 //get API key 
-import {config} from './config.js' 
+//import {config} from './config.js' 
 let myKey = config.MY_API_KEY;
 
 //when I click on the searchButton  
@@ -47,6 +49,7 @@ function makeButton() {
     //when I click this button
     button.on("click", function(){
         //todayCast is populated w/ information on this button's value 
+        getWeather(button.val());
         //fiveCast is populated w/ information on this button's value 
     })
         //append button to cityHistory
@@ -70,7 +73,8 @@ function getWeather(squid){
       jason = response;
     });
 }
-    
+
+
 
 
     
@@ -103,13 +107,34 @@ function buildToday(squid){
     let currentHumidity = $("<p><strong>Humidity:</strong> "+ squid.main.humidity +"%</p>")
     todayCast.append(currentHumidity);
         //the wind speed,
-    let windSpeed = $("<p><strong>Humidity:</strong> "+ squid.wind.speed +"%</p>")
+    let windSpeed = $("<p><strong>Wind Speed:</strong> "+ (squid.wind.speed * 2.237).toFixed(2) +"mph</p>")
+    todayCast.append(windSpeed);
         //and the UV index
-            //UV index is displayed in color coded field
-                //three codes, 
-                         //favorable, 
-                         //moderate, 
-                         //or severe
+    //squid.coord.lat + squid.coord.lon into ajax url
+    var onecallURL = "https://api.openweathermap.org/data/2.5/onecall?lat="+ squid.coord.lat + "&lon=" + squid.coord.lon + "&exclude=alerts&appid=" + myKey;
+    $.ajax({
+      url: onecallURL,
+      method: "GET"
+    }).then(function(response) {
+      console.log(response);
+      let currentUV =  $("<span>" + response.current.uvi +"</span>")
+    //UV index is displayed in color coded field
+     //favorable, 
+      if (parseInt(response.current.uvi) < 3){
+            currentUV.attr("class", "bg-success")
+
+    //moderate,
+        }else if(parseInt(response.current.uvi) < 8){
+            currentUV.attr("class", "bg-warning")
+    //or severe
+        }else{
+            currentUV.attr("class", "bg-danger")
+        }
+
+      ultraViolet = $("<p><strong>UV Index: </strong></p>")
+      ultraViolet.append(currentUV)
+      todayCast.append(ultraViolet)
+    });
 
 }
       
