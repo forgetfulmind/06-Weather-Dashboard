@@ -81,6 +81,7 @@ function getWeather(squid){
     //populate todayCast w/ information
 function buildToday(squid){
     todayCast.empty();
+    todayCast.attr("class","mt-3 bg-light border rounded")
      //city name, 
     let cityName = $("<p><strong>City Name:</strong> "+ squid.name + "</p>")
     console.log(squid.name);
@@ -121,33 +122,79 @@ function buildToday(squid){
     //UV index is displayed in color coded field
      //favorable, 
       if (parseInt(response.current.uvi) < 3){
-            currentUV.attr("class", "bg-success")
+            currentUV.attr("class", "bg-success border rounded col-2")
 
     //moderate,
         }else if(parseInt(response.current.uvi) < 8){
-            currentUV.attr("class", "bg-warning")
+            currentUV.attr("class", "bg-warning border rounded col-2")
     //or severe
         }else{
-            currentUV.attr("class", "bg-danger")
+            currentUV.attr("class", "bg-danger border rounded col-2")
         }
 
       ultraViolet = $("<p><strong>UV Index: </strong></p>")
       ultraViolet.append(currentUV)
       todayCast.append(ultraViolet)
+
+ //populate fiveCast w/ information 
+        fiveCast.empty();
+        let fiveDay = $("<div>")
+        fiveDay.attr("class", "row")
+        fiveCast.append(fiveDay);
+        predictFuture(response.daily);
+   
+
+
+
+
+      
     });
 
 }
-      
 
-                    
-    //populate fiveCast w/ information 
-        //create div - DO THIS 5 TIMES
-            //give new background
-            //fill with today's date + 1 information 
-                //the date, 
-                //an icon representation of weather conditions, 
-                //the temperature, 
-                //and the humidity
+//do this five times 
+function predictFuture(squid){
+    let fiveDay = $("<div>")
+    fiveDay.attr("class", "row bg-light border rounded")
+
+    for (let i= 1; i< 6; i++){
+        //create forecast block
+        let forecastBlock = $("<div>")
+        forecastBlock.attr("class", "col-2 bg-primary border rounded")
+
+        //create and append date value
+        const event = new Date(squid[i].dt*1000);
+        console.log(squid[i].dt*1000)
+        let dateValue = $("<p><strong>Date:</strong> "+ event.toDateString() + "</p>")
+        forecastBlock.append(dateValue);
+
+        //an icon representation of weather conditions, 
+        let currentConditions = $("<p><strong>Sky Condition:</strong> "+ squid[i].weather[0].description +"</p>")
+        let weatherIcon = $("<img>")
+        weatherIcon.attr("src", 
+                       "http://openweathermap.org/img/wn/" + squid[i].weather[0].icon + "@2x.png"
+        )
+        currentConditions.append(weatherIcon)
+        forecastBlock.append(currentConditions)
+        //the temperature, 
+        let currentTemp = squid[i].temp.day;
+        currentTemp = (currentTemp - 273.15) * 1.80 + 32;
+        let tempDisplay = $("<p><strong>Temperature:</strong> "+ currentTemp.toFixed(2) + "°F</p>")
+        forecastBlock.append(tempDisplay);
+
+        //and the humidity
+        let currentHumidity = $("<p><strong>Humidity:</strong> "+ squid[i].humidity +"%</p>")
+        forecastBlock.append(currentHumidity);
+
+        //append forecast block to column
+        fiveDay.append(forecastBlock);
+    }
+       
+       fiveCast.append(fiveDay);
+}
+   
+
+
 
             
     //when I refresh, 
