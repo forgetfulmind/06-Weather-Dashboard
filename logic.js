@@ -81,7 +81,7 @@ function getWeather(squid){
     //populate todayCast w/ information
 function buildToday(squid){
     todayCast.empty();
-    todayCast.attr("class","mt-3 bg-light border rounded")
+    todayCast.attr("class","mt-3 bg-light border rounded p-2")
      //city name, 
     let cityName = $("<p><strong>City Name:</strong> "+ squid.name + "</p>")
     console.log(squid.name);
@@ -161,16 +161,16 @@ function predictFuture(squid){
     for (let i= 1; i< 6; i++){
         //create forecast block
         let forecastBlock = $("<div>")
-        forecastBlock.attr("class", "col-2 bg-primary border rounded text-light")
+        forecastBlock.attr("class", "col-2 bg-primary border rounded text-light p-2 m-2")
 
         //create and append date value
         const event = new Date(squid[i].dt*1000);
         console.log(squid[i].dt*1000)
-        let dateValue = $("<p><strong>"+ event.toDateString() + "</strong></p>")
+        let dateValue = $("<h5><strong>"+ event.toDateString() + "</strong></h5>")
         forecastBlock.append(dateValue);
 
         //an icon representation of weather conditions, 
-        let currentConditions = $("<p><strong>Sky Condition:</strong> "+ squid[i].weather[0].description +"</p>")
+        let currentConditions = $("<p><strong>Sky Condition:</strong></p>")
         let weatherIcon = $("<img>")
         weatherIcon.attr("src", 
                        "http://openweathermap.org/img/wn/" + squid[i].weather[0].icon + "@2x.png"
