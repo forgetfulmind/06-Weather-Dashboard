@@ -156,16 +156,17 @@ function buildToday(squid){
 function predictFuture(squid){
     let fiveDay = $("<div>")
     fiveDay.attr("class", "row bg-light border rounded")
+    fiveCast.append("<h1>Five Day Forecast:</h1>")
 
     for (let i= 1; i< 6; i++){
         //create forecast block
         let forecastBlock = $("<div>")
-        forecastBlock.attr("class", "col-2 bg-primary border rounded")
+        forecastBlock.attr("class", "col-2 bg-primary border rounded text-light")
 
         //create and append date value
         const event = new Date(squid[i].dt*1000);
         console.log(squid[i].dt*1000)
-        let dateValue = $("<p><strong>Date:</strong> "+ event.toDateString() + "</p>")
+        let dateValue = $("<p><strong>"+ event.toDateString() + "</strong></p>")
         forecastBlock.append(dateValue);
 
         //an icon representation of weather conditions, 
