@@ -19,8 +19,7 @@ let myKey = config.MY_API_KEY;
 //when I click on the searchButton  
 searchButton.on("click",function(){
     searchBox();
-    //clear searchField value 
-    searchField.val("");
+
 
 } )
     //grab current value of searchField 
@@ -31,10 +30,11 @@ function searchBox(){
             console.log("hello!");
             //store value of searchField in localStorage
             localStorage.setItem("search", searchField.val().trim());
-            makeButton();
+            //makeButton();
             getWeather(searchField.val().trim())
         }else {
             alert("please use only letters for city name input")
+            searchField.val("");
         }
     }
                
@@ -49,7 +49,8 @@ function makeButton() {
     //when I click this button
     button.on("click", function(){
         //todayCast is populated w/ information on this button's value 
-        getWeather(button.val());
+        localStorage.setItem("search", button.val().trim());
+        historyButton(button.val());
         //fiveCast is populated w/ information on this button's value 
     })
         //append button to cityHistory
@@ -66,15 +67,34 @@ function getWeather(squid){
     $.ajax({
       url: queryURL,
       method: "GET"
-    }).then(function(response) {
+    }).done(function(response) {
       console.log(queryURL);
       console.log(response);
       buildToday(response);
       jason = response;
-    });
+      searchField.val("");
+      makeButton();
+      
+    }).fail(function(){
+        alert("Please enter a valid city name");
+         //clear searchField value 
+        searchField.val("");
+    })
 }
 
+function historyButton(squid){
 
+    var queryURL = "https://api.openweathermap.org/data/2.5/weather?q="+ squid + "&appid=" + myKey;
+
+    $.ajax({
+      url: queryURL,
+      method: "GET"
+    }).done(function(response) {
+      console.log(queryURL);
+      console.log(response);
+      buildToday(response);
+      jason = response;
+    })}
 
 
     
@@ -161,12 +181,13 @@ function predictFuture(squid){
     for (let i= 1; i< 6; i++){
         //create forecast block
         let forecastBlock = $("<div>")
-        forecastBlock.attr("class", "col-2 bg-primary border rounded text-light p-2 m-2")
+        forecastBlock.attr("class", "col-2 bg-primary border rounded text-light pl-4 p-2 pr-4 m-2 forecast")
 
         //create and append date value
         const event = new Date(squid[i].dt*1000);
         console.log(squid[i].dt*1000)
         let dateValue = $("<h5><strong>"+ event.toDateString() + "</strong></h5>")
+        dateValue.attr("class","row")
         forecastBlock.append(dateValue);
 
         //an icon representation of weather conditions, 
@@ -175,16 +196,20 @@ function predictFuture(squid){
         weatherIcon.attr("src", 
                        "http://openweathermap.org/img/wn/" + squid[i].weather[0].icon + "@2x.png"
         )
+        weatherIcon.attr("width", "40vw")
+        currentConditions.attr("class","row")
         currentConditions.append(weatherIcon)
         forecastBlock.append(currentConditions)
         //the temperature, 
         let currentTemp = squid[i].temp.day;
         currentTemp = (currentTemp - 273.15) * 1.80 + 32;
-        let tempDisplay = $("<p><strong>Temperature:</strong> "+ currentTemp.toFixed(2) + "°F</p>")
+        let tempDisplay = $("<p><strong>Temperature: </strong> "+ " "+ currentTemp.toFixed(2) + "°F</p>")
+        tempDisplay.attr("class","row")
         forecastBlock.append(tempDisplay);
 
         //and the humidity
-        let currentHumidity = $("<p><strong>Humidity:</strong> "+ squid[i].humidity +"%</p>")
+        let currentHumidity = $("<p><strong>Humidity: </strong> "+ " "+ squid[i].humidity +"%</p>")
+        currentHumidity.attr("class","row")
         forecastBlock.append(currentHumidity);
 
         //append forecast block to column
@@ -201,6 +226,8 @@ function predictFuture(squid){
     //when I refresh, 
         //I populate todayCast and fiveCast with last search
         //**I populate cityHistory with search history from localStorage
-makeButton();
+if (localStorage.getItem("search")){
+    makeButton();
+}
             //**append button to cityHistory to clear search history from localStorage 
     
