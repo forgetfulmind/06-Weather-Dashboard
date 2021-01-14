@@ -29,7 +29,7 @@ function searchBox(){
         if (!parseInt(searchField.val().trim())){
             console.log("hello!");
             //store value of searchField in localStorage
-            localStorage.setItem("search", searchField.val().trim());
+            //localStorage.setItem("search", searchField.val().trim());
             //makeButton();
             getWeather(searchField.val().trim())
         }else {
@@ -39,11 +39,11 @@ function searchBox(){
     }
                
     //make a button 
-function makeButton() {
+function makeButton(squid) {
     let button = $("<button>")
       //give it text and value equal to searchField 
-    button.val(localStorage.getItem("search"));
-    button.text(localStorage.getItem("search"));
+    button.val(squid);
+    button.text(squid);
       //give button class.searchedCity
     button.attr("class", "searchedCity");
     //when I click this button
@@ -72,8 +72,9 @@ function getWeather(squid){
       console.log(response);
       buildToday(response);
       jason = response;
+      localStorage.setItem("search", searchField.val().trim());
+      makeButton(searchField.val().trim());
       searchField.val("");
-      makeButton();
       
     }).fail(function(){
         alert("Please enter a valid city name");
@@ -181,7 +182,7 @@ function predictFuture(squid){
     for (let i= 1; i< 6; i++){
         //create forecast block
         let forecastBlock = $("<div>")
-        forecastBlock.attr("class", "col-2 bg-primary border rounded text-light pl-4 p-2 pr-4 m-2 forecast")
+        forecastBlock.attr("class", "col-2 bg-primary border rounded text-light pl-4 p-2 pr-4 forecast")
 
         //create and append date value
         const event = new Date(squid[i].dt*1000);
@@ -227,7 +228,7 @@ function predictFuture(squid){
         //I populate todayCast and fiveCast with last search
         //**I populate cityHistory with search history from localStorage
 if (localStorage.getItem("search")){
-    makeButton();
+    makeButton(localStorage.getItem("search"));
 }
             //**append button to cityHistory to clear search history from localStorage 
     
