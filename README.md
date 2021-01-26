@@ -5,9 +5,9 @@ For this assignment we were tasked the building of a weather forecast web applic
 
 
 
-Deployed Repository (https://github.com/forgetfulmind/06-Weather-Dashboard)
+Deployed Repository (https://github.com/forgetfulmind/weather-Forecast)
 
-Deployed Website: (https://forgetfulmind.github.io/06-Weather-Dashboard/)
+Deployed Website: (https://forgetfulmind.github.io/Weather-Forecast/)
 
 Screenshots: 
 First Visit: ![First Visit](./Assets/firstVisit.jpg)
