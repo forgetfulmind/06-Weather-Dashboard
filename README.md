@@ -10,8 +10,8 @@ Deployed Repository (https://github.com/forgetfulmind/06-Weather-Dashboard)
 Deployed Website: (https://forgetfulmind.github.io/06-Weather-Dashboard/)
 
 Screenshots: 
-First Visit: [First Visit](./Assets/firstVisit.jpg)
-Page Use: [Page Use](./Assets/pageUse.jpg)
-Return Visit: [Return Visit](./Assets/returnVisit.jpg)
+First Visit: ![First Visit](./Assets/firstVisit.jpg)
+Page Use: ![Page Use](./Assets/pageUse.jpg)
+Return Visit: ![Return Visit](./Assets/returnVisit.jpg)
 
 
