@@ -229,6 +229,7 @@ function predictFuture(squid){
         //**I populate cityHistory with search history from localStorage
 if (localStorage.getItem("search")){
     makeButton(localStorage.getItem("search"));
+    historyButton(localStorage.getItem("search"));
 }
             //**append button to cityHistory to clear search history from localStorage 
     
